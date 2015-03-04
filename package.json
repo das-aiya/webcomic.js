@@ -1,0 +1,25 @@
+{
+  "name": "manual",
+  "version": "0.0.1",
+  "description": "a more manual bootstrap for my webcomic webapp!",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "node_modules/mocha/bin/mocha",
+    "loop": "node_modules/nodemon/bin/nodemon.js -e js,jade app.js"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "author": "R.D. no. 4",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^0.9.0",
+    "express": "^4.1.2",
+    "jade": "^1.3.1",
+    "mocha": "^1.16.2",
+    "mongoskin": "^0.6.1",
+    "nodemon": "^1.3.7",
+    "stylus": "^0.44.0"
+  }
+}

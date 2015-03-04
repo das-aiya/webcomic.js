@@ -1,0 +1,36 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+h1 {
+	display: block;
+}
+
+#links a {
+	margin-right: 1em;
+	font-size: 1.5em;
+}
+
+#page, #page_wrapper {
+	width:850px;
+	/* height:1100px; */
+}
+
+#content {
+	width: 850px;
+	margin-left:auto;
+	margin-right:auto;
+	padding: 1em;
+}
+
+.pagenav a {
+	font-size: 5em;
+	padding-left: 1em;
+	padding-right: 1em;
+	text-decoration: none;
+}

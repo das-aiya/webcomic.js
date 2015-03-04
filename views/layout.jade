@@ -1,0 +1,14 @@
+doctype html
+html
+	head
+		title= title
+		link(rel='stylesheet', href='/stylesheets/style.css')
+	body
+		div(id="content")
+			h1(id='banner')= title
+			nav(id='links')
+				a(href='/') Home
+				a(href='/about.html') About
+				a(href='/rss.html') RSS
+			block content
+			include ./includes/footer.jade
