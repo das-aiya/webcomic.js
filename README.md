@@ -7,6 +7,7 @@ Webcomic.js is an open-source framework to help you publish webcomics online usi
 Until this is re-released as a node module, it has to be cloned from Github:
 
 	git clone https://github.com/das-aiya/webcomic.js
+	cd webcomic.js
 	npm install
 	npm start
 
