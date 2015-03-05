@@ -1,6 +1,6 @@
 # webcomic.js
 
-Webcomic.js is an open-source framework to help you publish webcomics online using state-of-the-art web technology!  It's way under construction right now.
+Webcomic.js is an open-source framework to help you publish webcomics online using state-of-the-art web technology, hopefully soon to grow into a full-fledged webapp you can interact with using an online interface!  It's way under construction right now.
 
 ## Installing
 
