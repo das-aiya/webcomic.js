@@ -3,6 +3,7 @@ var http = require('http')
 var path = require('path')
 var fs = require("fs")
 var async = require('async')
+var fileGrep = require('./lib/fileGrep.js').fileGrep
 
 var app  = express()
 
@@ -46,70 +47,72 @@ app.get(pageAccessURL + '*', function(req, res) {
 	var number = req.params[0]
 	var intNumber = parseInt( number )
 
-	async.waterfall([
-		// i.  read filesystem
-		function ( callback ) {
-			fs.readdir(privatePagesPath, function(err, files) {
-				callback(null, files)
-			})
-		},
+	function returnComicPage (pagesData, mdData) {
 
-		// ii. check for appropriate file
-		function (files, callback) {
+		files = pagesData.files
 
-			var pageSource = null
+		if( files.length - 1 == intNumber ) { isLast = true } 
+		else { isLast = false }
 
-			for( var i = 0; i < files.length; i++ ) {
-				var basename = path.basename( files[i], path.extname(files[i]))
+		if ( intNumber > 0 ) { previous = intNumber - 1 } 
+		else { previous = "#" }
 
-				if( basename == number ) {
-					pageSource = pageDirName + files[i]		
-					break
-				} 
-			}
+		if ( isLast ) { next = "#" }
+		else { next = intNumber + 1 }
 
-			if (pageSource != null) {
-				callback( null, files, pageSource )
-			} else {
-				// throw error if page not found
-				callback("The requested comic page could not be located.")	
-			}
-		},
-
-		// iii.  render page from template.
-		function (files, pageSource, callback) {
-			console.log(files.length)
-			console.log(intNumber)
-			if( files.length - 2 == intNumber ) { isLast = true } 
-			else { isLast = false }
-
-			if ( intNumber > 0 ) { previous = intNumber - 1 } 
-			else { previous = "#" }
-
-			if ( isLast ) { next = "#" }
-			else { next = intNumber + 1 }
-
-			var data = {
-				previous  : previous,
-				next      : next,
-				pageSource: pageSource
-			}
-
-			publicPath = path.join(__dirname, "public")
-			pagePath = path.join(publicPath, pageSource)
-
-			res.render("index", data)
-			callback(null, "Page successfully rendered!")
+		var data = {
+			previous  : previous,
+			next      : next,
+			pageSource: "/pages/" + pagesData.selected
 		}
-	],
 
-	function(err, status) {
-			data = {
-				message : err
+		if( mdData.selected != null ) {
+			data.desc = mdData.result
+		} else {
+			data.desc = " "
+		}
+
+		publicPath = path.join(__dirname, "public")
+		pagePath = path.join(publicPath, data.pageSource)
+
+		res.render("index", data)
+	}
+
+
+	async.parallel(
+		[
+			function (callback) {
+				fileGrep({
+					pathName: privatePagesPath,
+					query   : number
+				},
+				function (results) {
+					callback(null, results)
+				})
+			},
+			function (callback) {
+				fileGrep({
+					pathName: path.join(__dirname, 'data/desc'),
+					query   : number
+				},
+				function (results) {
+					if (results.selected != null) {
+						myPath = path.join(results.pathName, results.selected)
+						fs.readFile(myPath, 'utf8', function (err, result) {
+							results.result = result
+							callback(null, results)
+						})
+					} else {
+						callback(null, results)
+					}
+				})
 			}
+		],
+		function (err, results) {
+			returnComicPage(results[0], results[1])
+		}
+	)
 
-			res.render('pageNotFound', data)
-	})
 
 })
 
@@ -120,6 +123,24 @@ app.get("*.html", function(req, res) {
 
 	res.render(renderName)
 
+})
+
+app.post("/api/postPage", function(req, res) {
+})
+
+app.post("/api/postDesc", function(req, res) {
+})
+
+app.post("/api/modDesc", function(req, res) {
+})
+
+app.post("/api/modPage", function(req, res) {
+})
+
+app.get("/api/getDesc", function(req, res) {
+})
+
+app.get("/api/getPage", function(req, res) {
 })
 
 app.use("*", function(req, res) {
