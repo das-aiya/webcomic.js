@@ -148,6 +148,6 @@ app.use("*", function(req, res) {
 })
 
 http.createServer(app).listen(app.get('port'), function(){
-	console.log('Express server fuckin\' listenin\' on port ' 
+	console.log('Express server listenin\' on port ' 
 		+ app.get('port'));
 });
