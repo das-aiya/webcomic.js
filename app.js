@@ -1,149 +1,61 @@
-var express = require('express')
-var http = require('http')
-var path = require('path')
-var fs = require("fs")
+var api = require('./routes/api.js')
 var async = require('async')
-var fileGrep = require('./lib/fileGrep.js').fileGrep
+var bodyParser = require('body-parser')
+var config = require('./package')
+var cookieParser = require('cookie-parser')
+var defaults = require('./lib/defaults.js')
+var express = require('express')
+var useful = require('./lib/useful.js')
+var fs = require("fs")
+var http = require('http')
+var main = require('./routes/main.js')
+var multer = require('multer')
+var path = require('path')
+var api = require('./routes/api.js')
+var session = require('express-session')
 
 var app  = express()
 
-app.set('appName', 'hello-world')
+app.set('appName', 'comicpublisher.js')
 app.set('port', process.env.PORT || 3000)
 app.set('views', path.join(__dirname, 'views') )
 app.set('view engine', 'jade')
-
 app.use(express.static(path.join(__dirname, 'public')));
+
+// app.use(express.cookieSession())
 // app.use( bodyParser.json() )
+app.use(multer({
+	dest: './uploads/',
+	onFileUploadStart: function (file) {
+		console.log(file.originalname + ' is downloading.')
+	},
+	onFileUploadComplete: function (file) {
+	},
+	putSingleFilesInArray: true
+}))
 
-var pageDirName = "/pages/" 
-var pageAccessURL = '/page/'
-var privatePagesPath = path.join(__dirname, 'public', pageDirName) 
 
-// redirect to the last page
+app.use(bodyParser())
+app.use(cookieParser('FzAmMi93z_bA2LpCxgRLsa3qg95OLtrO'))
+app.use(session({'secret':'5ozY2vfr5vEHYz_avJ?z69HnVQUxh2bw'}))
+app.use('/api', api)
+
 app.get('/', function(req, res) {
-
-	// http://stackoverflow.com/a/15804736
-	// thanks Stackoverflow user pfried
-	var numSort = function (a, b) {
-		var a = parseInt(a)	
-		var b = parseInt(b)	
-
-		return a - b
-	}
-
-	fs.readdir(privatePagesPath, function(err, files) {
-
-		files.sort(numSort)
-		pageFile = files[files.length - 1]
-		pageNum = path.basename(pageFile, path.extname(pageFile))
-
-		res.redirect(pageAccessURL + pageNum)
+	useful.lastPage(function(err, result) {
+		res.redirect(pageAccessURL + result)
 	})
 })
 
-// return the page at /p/NUMBER
-app.get(pageAccessURL + '*', function(req, res) {
-
-	var number = req.params[0]
-	var intNumber = parseInt( number )
-
-	function returnComicPage (pagesData, mdData) {
-
-		files = pagesData.files
-
-		if( files.length - 1 == intNumber ) { isLast = true } 
-		else { isLast = false }
-
-		if ( intNumber > 0 ) { previous = intNumber - 1 } 
-		else { previous = "#" }
-
-		if ( isLast ) { next = "#" }
-		else { next = intNumber + 1 }
-
-		var data = {
-			previous  : previous,
-			next      : next,
-			pageSource: "/pages/" + pagesData.selected
-		}
-
-		if( mdData.selected != null ) {
-			data.desc = mdData.result
-		} else {
-			data.desc = " "
-		}
-
-		publicPath = path.join(__dirname, "public")
-		pagePath = path.join(publicPath, data.pageSource)
-
-		res.render("index", data)
-	}
-
-
-	async.parallel(
-		[
-			function (callback) {
-				fileGrep({
-					pathName: privatePagesPath,
-					query   : number
-				},
-				function (results) {
-					callback(null, results)
-				})
-			},
-			function (callback) {
-				fileGrep({
-					pathName: path.join(__dirname, 'data/desc'),
-					query   : number
-				},
-				function (results) {
-					if (results.selected != null) {
-						myPath = path.join(results.pathName, results.selected)
-						fs.readFile(myPath, 'utf8', function (err, result) {
-							results.result = result
-							callback(null, results)
-						})
-					} else {
-						callback(null, results)
-					}
-				})
-			}
-		],
-		function (err, results) {
-			returnComicPage(results[0], results[1])
-		}
-	)
-
-
-})
+// return the page at /page/NUMBER
+app.get(defaults.pageAccessURL + '*', main)
 
 app.get("*.html", function(req, res) {
 	var name = req.params[0]
-	
 	renderName = path.basename(name, path.extname(name))
-
 	res.render(renderName)
-
 })
 
-app.post("/api/postPage", function(req, res) {
-})
-
-app.post("/api/postDesc", function(req, res) {
-})
-
-app.post("/api/modDesc", function(req, res) {
-})
-
-app.post("/api/modPage", function(req, res) {
-})
-
-app.get("/api/getDesc", function(req, res) {
-})
-
-app.get("/api/getPage", function(req, res) {
-})
-
-app.use("*", function(req, res) {
+app.get("*", function(req, res) {
 	res.render('pageNotFound')
 })
 
