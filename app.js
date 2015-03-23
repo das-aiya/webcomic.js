@@ -1,18 +1,17 @@
-var api = require('./routes/api.js')
 var async = require('async')
 var bodyParser = require('body-parser')
 var config = require('./package')
 var cookieParser = require('cookie-parser')
-var defaults = require('./lib/defaults.js')
 var express = require('express')
-var useful = require('./lib/useful.js')
-var fs = require("fs")
 var http = require('http')
-var main = require('./routes/main.js')
 var multer = require('multer')
 var path = require('path')
-var api = require('./routes/api.js')
 var session = require('express-session')
+
+var defaults = require('./lib/defaults.js')
+var useful = require('./lib/useful.js')
+var main = require('./routes/main.js')
+var api = require('./routes/api.js')
 
 var app  = express()
 
@@ -42,7 +41,7 @@ app.use('/api', api)
 
 app.get('/', function(req, res) {
 	useful.lastPage(function(err, result) {
-		res.redirect(pageAccessURL + result)
+		res.redirect(defaults.pageAccessURL + result)
 	})
 })
 
