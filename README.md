@@ -18,25 +18,21 @@ There are some sample images in the public/pages folder, with names like 1.png a
 Just create a new markdown (.md) file in data!  It works in a manner anologous to pages.
 
 ## Adding additional page metadata
-Page metadata is currently stored in .yaml files in the "data" folder.
-`
-name: So it begins.
-date: 23-March-2015
-tags: 
- - office
- - wednesday
- - elliot
- - jason
+Page metadata is currently stored in .yaml files in the "data" folder.  Here's an example:
 
-`
+	name: So it begins.
+	date: 23-March-2015
+	tags: 
+	 - office
+	 - wednesday
+	 - elliot
+	 - jason
 
 ## Is that it?
 
 Here's the current todo list for more features:
 
-- add page description with markdown support
-- add an upload/download/modify api
-- re-release as a Node.js module!
+- finish the upload/download/modify api
 - create a frontend for adding/deleting/rearranging/describing comic pages
 
 Webcomic.js is currently under early-stage, pre-alpha development.  While theoretically functional for production use, it's not to be considered fully realized or feature-complete.  So hold your horses, okay?
