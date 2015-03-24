@@ -11,6 +11,7 @@ var session = require('express-session')
 var defaults = require('./lib/defaults.js')
 var useful = require('./lib/useful.js')
 var main = require('./routes/main.js')
+var rss = require('./routes/rss.js')
 var api = require('./routes/api.js')
 
 var app  = express()
@@ -44,6 +45,8 @@ app.get('/', function(req, res) {
 		res.redirect(defaults.pageAccessURL + result)
 	})
 })
+
+app.use("*rss*", rss)
 
 // return the page at /page/NUMBER
 app.get(defaults.pageAccessURL + '*', main)
