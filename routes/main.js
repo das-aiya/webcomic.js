@@ -22,7 +22,7 @@ var Main = function(req, res) {
 
 		var files = pagesData.files
 
-		if( files.length - 1 == intNumber ) { isLast = true } 
+		if( files.length == intNumber ) { isLast = true } 
 		else { isLast = false }
 
 		if ( intNumber > 0 ) { previous = intNumber - 1 } 
