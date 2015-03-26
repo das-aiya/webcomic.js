@@ -42,7 +42,7 @@ router.post("/login", function(req, res, next) {
 	}
 })
 
-// router.use("/*", auth)
+router.use("/*", auth)
 
 router.use("/logout", function(req, res, next) {
 	req.session = null
@@ -81,6 +81,7 @@ router.post("/postDesc", function(req, res) {
 })
 
 router.post("/modDesc/*", function(req, res) {
+	
 })
 
 router.post("/modPage/*", function(req, res) {
@@ -120,7 +121,10 @@ router.get("/getPageCount", function(req, res) {
 			// handle error here
 		} else {
 			num = parseInt(results)
-			res.send(genericSuccess)
+			res.send({
+				result: "success",
+				data: num
+			})
 		}
 	})
 })
