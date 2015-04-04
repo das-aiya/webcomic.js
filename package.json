@@ -12,7 +12,7 @@
     "type": "git"
   },
   "author": "R.D. no. 4",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "async": "^0.9.0",
     "body-parser": "^1.12.2",
@@ -23,10 +23,12 @@
     "jade": "^1.3.1",
     "js-yaml": "^3.2.7",
     "marked": "^0.3.3",
+    "moment": "^2.9.0",
     "multer": "^0.1.8",
     "nodemon": "^1.3.7",
     "stylus": "^0.44.0"
   },
   "username": "diego von diego",
-  "password": "change me plz"
+  "password": "change me plz",
+  "pretty": true
 }

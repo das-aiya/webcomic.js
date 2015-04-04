@@ -22,6 +22,11 @@ var Main = function(req, res) {
 
 		var files = pagesData.files
 
+		var isLast, previous, next, isFirst;
+
+		if( intNumber == 1 ) { isFirst = true } 
+		else { isFirst = false }
+
 		if( files.length == intNumber ) { isLast = true } 
 		else { isLast = false }
 
@@ -34,7 +39,9 @@ var Main = function(req, res) {
 		var data = {
 			previous  : previous,
 			next      : next,
-			pageSource: "/pages/" + pagesData.selected
+			pageSource: "/pages/" + pagesData.selected,
+			isFirst: isFirst,
+			isLast: isLast
 		}
 
 		if( mdData.selected != null ) {

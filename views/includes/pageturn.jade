@@ -1,5 +1,15 @@
+if isLast
+	- var lastFade = " fade"
+else
+	- var lastFade = ""
+
+if isFirst
+	- var firstFade = " fade"
+else
+	- var firstFade = ""
+
 nav(class='pagenav')
-	a(class='gofirst'   href='1') <<
-	a(class='goprev'    href= previous) <
-	a(class='gonext'    href= next) >
-	a(class='golast'    href='/') >>
+	a(class='gofirst' + firstFade   href='1') <<
+	a(class='goprev'  + firstFade   href= previous) <
+	a(class='gonext'  + lastFade    href= next) >
+	a(class='golast'  + lastFade    href='/') >>

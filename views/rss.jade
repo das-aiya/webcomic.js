@@ -1,9 +1,29 @@
-rss(version="2.0")
+doctype xml
+
+rss(version="2.0")&attributes(xlmns)
 	channel
 		title Ethereal Webcomic
-		atom:link(href="" rel="self" type="application/rss+xml")
-		<link>http://etheral.topleveldomain.com/</link>
-		description A webcomic about bored college students and life at the office in space.
+		atom:link(href="" rel="self" type="application/rss+xml")/
+		link http://etheral.topleveldomain.com/
+		description A webcomic about bored college students and corporate astronauts.
 		lastBuildDate Just now.
 		language en-US
 			sy:updatePeriod live
+		
+		for u in updates
+			item
+				title
+					| <![CDATA[!{u.name}]]>
+				link= u.link
+				pubDate= u.date
+				dc:creator anonymous
+				for t in u.tags
+					category
+						| <![CDATA[!{t}]]>
+				description
+					| <![CDATA[!{u.desc}]]
+				content:encoded
+					p
+						a(href= u.link title = u.name)
+							img(src= u.src alt= u.name)
+				guid= u.link

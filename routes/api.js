@@ -42,7 +42,7 @@ router.post("/login", function(req, res, next) {
 	}
 })
 
-router.use("/*", auth)
+// router.use("/*", auth)
 
 router.use("/logout", function(req, res, next) {
 	req.session = null
@@ -113,6 +113,31 @@ router.get("/getDesc/*", function(req, res) {
 })
 
 router.get("/getPage/*", function(req, res) {
+	var descNumber = req.params[0]
+
+	if (descNumber == null) {
+		res.send({
+			result: "failure",
+			msg: "You need to specify a page number."
+		})
+	} else {
+		useful.fileGrep({
+			pathName: defaults.privatePagesPath,
+			query: descNumber
+		}, function (err, results) {
+			if (err || !results.selected) {
+				res.send({
+					result: "failure",
+					msg: "There was a problem retrieving the specified page."
+				})
+			} else {
+				res.send({
+					result: "success",
+					msg: path.join(defaults.pageDirName, results.selected)
+				})
+			}
+		})
+	}
 })
 
 router.get("/getPageCount", function(req, res) {

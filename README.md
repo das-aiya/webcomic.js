@@ -2,6 +2,8 @@
 
 Webcomic.js is an early pre-alpha stage content management system for publishing comics online.  It currently provides a half-finished api for clean access, and also responds to manual uploads of numbered files to specific folders, i.e., putting 1.jpg into the pages folder will cause this page to appear on the site.
 
+This is not just a framework; the next stage of development for webcomic.js will involve the creation of a browser-based frontend for easy point-and-click content management.
+
 ## Installing
 
 Clone from Github, then install dependencies, then run:
@@ -14,10 +16,9 @@ Clone from Github, then install dependencies, then run:
 ## Adding Pages
 There are some sample images in the public/pages folder, with names like 1.png and 5.jpg.  Adding similarly, logically numbered images will automatically make them available on your website!
 
-## Adding Page Descriptions
-Just create a new markdown (.md) file in data!  It works in a manner anologous to pages.
+## Adding Page Descriptions and Metadata
+Page descriptions are pretty easy.  They're stored in .md files in the data folder.  This means that you can write your page description as plain text, or you can use the features of Markdown, or you can write it in pure HTML.  The plan is to create a frontend that lets you use a WYSIWYG editor to do all of this from the browser, if desired.
 
-## Adding additional page metadata
 Page metadata is currently stored in .yaml files in the "data" folder.  Here's an example:
 
 	name: So it begins.

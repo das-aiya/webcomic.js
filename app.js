@@ -13,6 +13,7 @@ var useful = require('./lib/useful.js')
 var main = require('./routes/main.js')
 var rss = require('./routes/rss.js')
 var api = require('./routes/api.js')
+var admin = require('./routes/admin.js')
 
 var app  = express()
 
@@ -34,11 +35,11 @@ app.use(multer({
 	putSingleFilesInArray: true
 }))
 
-
 app.use(bodyParser())
 app.use(cookieParser('FzAmMi93z_bA2LpCxgRLsa3qg95OLtrO'))
 app.use(session({'secret':'5ozY2vfr5vEHYz_avJ?z69HnVQUxh2bw'}))
 app.use('/api', api)
+app.locals.pretty = true
 
 app.get('/', function(req, res) {
 	useful.lastPage(function(err, result) {
@@ -47,6 +48,7 @@ app.get('/', function(req, res) {
 })
 
 app.use("*rss*", rss)
+app.use("/admin", admin)
 
 // return the page at /page/NUMBER
 app.get(defaults.pageAccessURL + '*', main)
