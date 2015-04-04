@@ -1,29 +1,35 @@
-doctype xml
+- function full (url) { return path.join(config.url, url) }
+- function dateFormat (string) { return moment(string).format("ddd[,] DD MMM YYYY HH:mm:ss ZZ") }
 
+doctype xml
 rss(version="2.0")&attributes(xlmns)
 	channel
 		title Ethereal Webcomic
-		atom:link(href="" rel="self" type="application/rss+xml")/
-		link http://etheral.topleveldomain.com/
+		atom:link(href= full('rss') rel="self" type="application/rss+xml")/
+		link= config.url
 		description A webcomic about bored college students and corporate astronauts.
-		lastBuildDate Just now.
+		lastBuildDate= dateFormat( moment() )
 		language en-US
-			sy:updatePeriod live
+			sy:updatePeriod hourly
+			sy:updateFrequency 1
+		generator https://github.com/das-aiya/webcomic.js
 		
 		for u in updates
 			item
-				title
-					| <![CDATA[!{u.name}]]>
-				link= u.link
-				pubDate= u.date
+				title= u.name
+				link= full(u.link)
+				pubDate= dateFormat(u.date)
 				dc:creator anonymous
+
 				for t in u.tags
 					category
 						| <![CDATA[!{t}]]>
+
+				guid(isPermaLink='true')= u.link
+
 				description
 					| <![CDATA[!{u.desc}]]
-				content:encoded
-					p
-						a(href= u.link title = u.name)
-							img(src= u.src alt= u.name)
-				guid= u.link
+				| !{u.desc}
+				p
+					a(href= full(u.link) title= u.name)
+						img(src= full(u.src) alt= u.name)/
