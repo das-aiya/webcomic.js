@@ -28,6 +28,7 @@
     "nodemon": "^1.3.7",
     "stylus": "^0.44.0"
   },
+	"url": "http://nebula-ice.erki.net/",
   "username": "diego von diego",
   "password": "change me plz",
   "pretty": true
