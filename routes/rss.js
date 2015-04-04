@@ -2,6 +2,7 @@ var useful = require('../lib/useful.js')
 var config = require('../package')
 var path = require('path')
 var moment = require('moment')
+var url = require('url')
 
 var xlmns = {
 		'xmlns:content': "http://purl.org/rss/1.0/modules/content/" ,
@@ -22,6 +23,7 @@ renderRSS = function (req, res, next) {
 			results.config = config
 			results.path = path
 			results.moment = moment
+			results.url = url
 			res.render('rss', results)
 		}
 	})
