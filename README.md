@@ -1,16 +1,18 @@
 # webcomic.js
-Webcomic.js is an early pre-alpha stage content management system for publishing comics online.  It currently provides a half-finished api for clean access, and also responds to manual uploads of numbered files to specific folders, i.e., putting 1.jpg into the pages folder will cause this page to appear on the site.
+Webcomic.js is an newborn, alpha-stage content management system for publishing comics online.  It currently provides a half-finished api for clean access, and also responds to manual uploads of numbered files to specific folders, i.e., putting 1.jpg into the pages folder will cause this page to appear on the site.
 
 This is not just a framework; the next stage of development for webcomic.js will involve the creation of a browser-based frontend for easy point-and-click content management.
 
 ## Installing
 
-Clone from Github, then install dependencies, then run:
+Clone from Github, then run:
 
 	git clone https://github.com/das-aiya/webcomic.js
 	cd webcomic.js
 	npm install
 	npm start
+
+You might have to install some extra dependencies, but those aren't documented, yet.
 
 ## Pages
 There are some sample images in the public/pages folder, with names like 1.png and 5.jpg.  Adding similarly, logically numbered images will automatically make them available on your website!
@@ -37,55 +39,78 @@ All API requests, unless otherwise specified, will return a JSON string with two
 
 All POST requests must be sent forms containing content labelled "content," unless otherwise specified.
 
-### POST /api/postPage
+### Logging in And Out
+#### POST /api/login
+Send a username and a password!  It's classic.  You'll get confirmation that you logged in and a session cookie if successful, a failure notice if not.
+
+#### GET /api/logout
+This will erase your session with the server.  Alternatively, you can just delete your cookies.
+
+### Posting Updates and New Content
+#### POST /api/postPage
 Puts a page that fits after the last posted page.  So if you had five pages up, and you send this method an image file, a sixth page will be available at http://www.yourwebsite.com/p/6.  This method must be sent a file.
 
-### POST /api/postDesc
+#### POST /api/postDesc
 Send either a file or plaintext form data.  This assigns a markdown file to your last posted page, so your page can have a description!  If there's an existing description, it will be overwritten.
 
-### POST /api/postData
+#### POST /api/postData
 Send either a file or plaintext form data.  This assigns a data file to your last posted page, so your page can have tags and a title and stuff!
 
-### POST /api/modPage/[number]
+### Modifying Existing Content
+#### POST /api/modPage/[number]
 Replaces page [number] with your new page. This method must be sent a file.
 
-### POST /api/modDesc/[number]
+#### POST /api/modDesc/[number]
 Replaces page [number]'s Markdown description with the form text or file you send.
 
-### POST /api/modData/[number]
+#### POST /api/modData/[number]
 Replaces page [number]'s YAML data with the form text or file you send.
 
-### GET /api/getDesc/[number]
+### Requesting Existing Content
+#### GET /api/getDesc/[number]
 Returns the page description at data/[number].md.  Returns an error if the description file can't be found.
 
-### GET /api/getData/[number]
+#### GET /api/getData/[number]
 Returns the page metadata at data/[number].yaml.  Returns an error if the description file can't be found.
 
-### GET /api/getPage/[number]
+#### GET /api/getPage/[number]
 Returns the page buffer as a JSON string.  This is actually a pretty bad idea.  Don't do this.
 
-### Getting Raw Instead of JSON
+#### Getting Raw Instead of JSON
 Page, Data, and Desc GET methods can be renamed to include "Raw" in them, so you can retrieve raw data instead of a JSON string.  This means that a GET request at /api/getPageRaw/3 will give you the actual image file that's saved for that page.
 
-http://mycomic.awesome.com/api/
+### Requestion Information About Site Content
+To be added!
 
 ## An Example with cURL
-swaglicious@foobox $ alias curl='curl -b cookiefile.txt -d cookiefile.txt'
-swaglicious@foobox $ curl -F "username=dan" -F "password=you'llneverguess"
-{
-  "result": "success",
-	"msg": "You are now logged in."
-}
-
-curl -F "content=@mynewpage.jpg" 
-{
-  "result": "success",
-  "msg": "A dispute among employees.  We made it to page two!  This is a milestone.\n"
-}
+	swaglicious@foobox $ alias curl='curl -b cookiefile.txt -d cookiefile.txt'
+	swaglicious@foobox $ mysite="http://mycomic.awesome.com/api"
+	swaglicious@foobox $ curl -F "username=dan" -F "password=you'llneverguess" "$mysite/login"
+	{
+		"result": "success",
+		"msg": "You are now logged in."
+	}
+	swaglicious@foobox $ curl -F "content=@mynewpage.jpg" "$mysite/postPage"
+	{
+		"result": "success",
+		"msg": "Your file has been successfully uploaded!"
+	}
+	swaglicious@foobox $ curl "$mysite/getDesc/3"
+	{
+		"result": "success",
+		"msg": "Hey!  Welcome to page three.  God, it took forever to get the shading on Lisa's upper lip right.  Super duper forever.\nAnyway, I hope you like it.  Feel free to leave a comment.  I love comments!"
+	}
+	swaglicious@foobox $ curl -F "content=This page is inredibly silly in retrospect." "$mysite/modDesc/3"
+	{
+	  "result": "success",
+		"msg": "The file was successfully written!"
+	}
+	swaglicious@foobox $ rm cookiefile.txt
+	swaglicious@foobox $ exit
 
 Here's the current todo list for more features:
 
-- finish the upload/download/modify api
+- add more upload/download/modify features
 - create a frontend for adding/deleting/rearranging/describing comic pages
 
 Webcomic.js is currently under early-stage, pre-alpha development.  While theoretically functional for production use, it's not to be considered fully realized or feature-complete.  So hold your horses, okay?
