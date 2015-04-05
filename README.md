@@ -79,7 +79,7 @@ Returns the page buffer as a JSON string.  This is actually a pretty bad idea.  
 #### Getting Raw Instead of JSON
 Page, Data, and Desc GET methods can be renamed to include "Raw" in them, so you can retrieve raw data instead of a JSON string.  This means that a GET request at /api/getPageRaw/3 will give you the actual image file that's saved for that page.
 
-### Requestion Information About Site Content
+### Requesting Information About Site Content
 To be added!
 
 ## An Example with cURL
