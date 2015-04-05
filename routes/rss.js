@@ -24,6 +24,7 @@ renderRSS = function (req, res, next) {
 			results.path = path
 			results.moment = moment
 			results.url = url
+			results.console = console
 			res.render('rss', results)
 		}
 	})
