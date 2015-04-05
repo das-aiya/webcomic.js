@@ -26,13 +26,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.cookieSession())
 // app.use( bodyParser.json() )
 app.use(multer({
-	dest: './uploads/',
 	onFileUploadStart: function (file) {
 		console.log(file.originalname + ' is downloading.')
 	},
 	onFileUploadComplete: function (file) {
 	},
-	putSingleFilesInArray: true
+	putSingleFilesInArray: true,
+	inMemory: true
 }))
 
 app.use(bodyParser())
@@ -63,7 +63,7 @@ app.get("*", function(req, res) {
 	res.render('pageNotFound')
 })
 
-http.createServer(app).listen(app.get('port'), function(){
+http.createServer(app).listen(app.get('port'), function() {
 	console.log('Express server listenin\' on port ' 
 		+ app.get('port'));
 });
