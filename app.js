@@ -13,6 +13,7 @@ var useful = require('./lib/useful.js')
 var main = require('./routes/main.js')
 var rss = require('./routes/rss.js')
 var api = require('./routes/api.js')
+var thumb = require('./routes/thumb.js')
 var admin = require('./routes/admin.js')
 
 var app  = express()
@@ -49,6 +50,7 @@ app.get('/', function(req, res) {
 
 app.use("*rss*", rss)
 app.use("/admin", admin)
+app.use("/thumb", thumb)
 
 // return the page at /page/NUMBER
 app.get(defaults.pageAccessURL + '*', main)

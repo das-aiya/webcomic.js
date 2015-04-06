@@ -11,7 +11,16 @@ router.get('/login', function(req, res) {
 })
 
 router.get('/', function(req, res) {
-	res.render("admin/panel")
+	useful.buildUpdates(99999, function(err, results) {
+		console.log("FUCK SHIT FUCK SHIT")
+		if (err) {
+			console.log(err)
+		} else {
+			console.log(results)
+		}
+
+		res.render("admin/panel", results)
+	})
 })
 
 module.exports = router

@@ -5,7 +5,7 @@ This is not just a framework; the next stage of development for webcomic.js will
 
 ## Installing
 
-Clone from Github, then run:
+Clone from Github, then run.
 
 	git clone https://github.com/das-aiya/webcomic.js
 	cd webcomic.js
@@ -33,6 +33,7 @@ Page metadata is currently stored in .yaml files in the "data" folder.  Here's a
 ## API
 Webcomic.js's developer API is documented [here](./docs/API.md).
 
+## TODO
 Here's the current todo list for more features:
 
 - add more upload/download/modify features
