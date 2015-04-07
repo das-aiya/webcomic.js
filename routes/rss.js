@@ -13,7 +13,7 @@ var xlmns = {
 		'xmlns:slash': "http://purl.org/rss/1.0/modules/slash/"
 }
 
-renderRSS = function (req, res, next) {
+var renderRSS = function (req, res, next) {
 	res.header("Content-Type", "application/rss+xml")
 	useful.buildUpdates(20, function (err, results) {
 		if (err) {
