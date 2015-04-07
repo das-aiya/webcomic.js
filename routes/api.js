@@ -165,9 +165,6 @@ router.all(new RegExp("(mod|post|get)"), function (req, res, next) {
 	// determine the name of the file, from a
 	// page number. open it and send the results
 	var grepReadReqPage = function (destDir, num, ext) {
-		console.log(destDir)
-		console.log(num)
-
 		useful.fileGrep({
 			pathName: destDir,
 			query: res.locals.num
@@ -288,8 +285,6 @@ router.all("*", function(req, res) {
 	var targetFile = path.join(
 		res.locals.destDir, res.locals.num + res.locals.ext
 	)
-
-	console.log("executing an fs method")
 
 	res.locals.fsMethod(
 		res.locals.destDir,
