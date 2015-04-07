@@ -19,7 +19,7 @@ You might have to install some extra dependencies, but those aren't documented, 
 
 You'll also want to make a thumbnail directory:
 	
-	mkdir thumbnail
+	mkdir thumb
 
 as well as a pages directory in the public folder:
 	
