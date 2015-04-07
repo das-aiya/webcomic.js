@@ -12,11 +12,13 @@ var defaults = require('./lib/defaults.js')
 var useful = require('./lib/useful.js')
 var main = require('./routes/main.js')
 var rss = require('./routes/rss.js')
+var archive = require('./routes/archive.js')
 var api = require('./routes/api.js')
 var thumb = require('./routes/thumb.js')
 var admin = require('./routes/admin.js')
 
 var app  = express()
+
 
 app.set('appName', 'comicpublisher.js')
 app.set('port', process.env.PORT || 3000)
@@ -51,6 +53,7 @@ app.get('/', function(req, res) {
 app.use("*rss*", rss)
 app.use("/admin", admin)
 app.use("/thumb", thumb)
+app.use('/archive', archive)
 
 // return the page at /page/NUMBER
 app.get(defaults.pageAccessURL + '*', main)
