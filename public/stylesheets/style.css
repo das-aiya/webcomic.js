@@ -94,3 +94,17 @@ footer {
 	background-color: #333;
 	text-align: center;
 }
+
+.update {
+	height: 200px;
+	margin-bottom: 10px;
+}
+
+.update img {
+	float: left;
+}
+
+.update-info {
+	text-align: center;
+}
+
