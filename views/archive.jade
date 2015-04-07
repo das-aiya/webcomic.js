@@ -1,0 +1,16 @@
+extends layout
+
+block content
+	for u in updates
+		.update
+			img(src= u.thumb)
+			.update-info
+				h3 
+					| "#{u.name}"
+				| !{u.desc}
+				p
+					| tagged: 
+					for t in u.tags
+						a(href= "/tagged/" + t) #{t}
+						|    
+				
