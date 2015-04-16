@@ -16,7 +16,7 @@ var auth = function(req, res, next) {
 	if (req.session.auth) {
 		next()
 	} else {
-		res.sendFailure("You have to be logged in to use this feature.")
+		res.locals.sendFailure("You have to be logged in to use this feature.")
 	}
 }
 
