@@ -66,5 +66,7 @@ Panel.submitPage = function () {
 		} else {
 			console.log("we did it")
 		}
+
+		window.location.href = "/admin"
 	})
 }
