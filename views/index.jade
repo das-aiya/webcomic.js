@@ -7,6 +7,6 @@ block content
 		img(id="page" src= pageSource)
 	include ./includes/pageturn.jade
 	div(id="info")
-		h3(id=data)= "Posted on " + date + "."
+		h3(id=data)= "Posted " + date + "."
 		div(id=description)!= md(desc)
 	include ./includes/disqus.jade

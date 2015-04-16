@@ -16,6 +16,7 @@ var archive = require('./routes/archive.js')
 var api = require('./routes/api.js')
 var thumb = require('./routes/thumb.js')
 var admin = require('./routes/admin.js')
+var tagged = require('./routes/tagged.js')
 
 var app  = express()
 
@@ -54,6 +55,7 @@ app.use("*rss*", rss)
 app.use("/admin", admin)
 app.use("/thumb", thumb)
 app.use('/archive', archive)
+app.use('/tagged', tagged)
 
 // return the page at /page/NUMBER
 app.get(defaults.pageAccessURL + '*', main)

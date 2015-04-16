@@ -12,8 +12,7 @@ var genericSuccess = {
 
 var auth = function(req, res, next) {
 	if (req.session.auth) {
-		console.log("authorized.")
-		return next()
+		next()
 	} else {
 		res.sendFailure("You have to be logged in to use this feature.")
 	}
@@ -82,6 +81,18 @@ router.get("/getPageCount", function(req, res) {
 		} else {
 			var num = parseInt(results)
 			res.locals.sendSuccess(num)
+		}
+	})
+})
+
+router.get("/getUpdates", function(req, res) {
+	console.log("yolo")
+
+	useful.buildUpdates(20, function (err, results) {
+		if (err) {
+			res.locals.sendFailure("Sorry, an error occurred.")
+		} else {
+			res.locals.sendSuccess(results.updates)
 		}
 	})
 })
@@ -282,15 +293,17 @@ router.all(new RegExp(".*Raw.*"), function(req, res, next) {
 
 router.all("*", function(req, res) {
 
-	var targetFile = path.join(
-		res.locals.destDir, res.locals.num + res.locals.ext
-	)
+	if (res.locals.destDir && res.locals.num) {
+		var targetFile = path.join(
+			res.locals.destDir, res.locals.num + res.locals.ext
+		)
 
-	res.locals.fsMethod(
-		res.locals.destDir,
-		res.locals.num,
-		res.locals.ext
-	)
+		res.locals.fsMethod(
+			res.locals.destDir,
+			res.locals.num,
+			res.locals.ext
+		)
+	}
 })
 
 router.get("/getPagePath/*", function(req, res) {
