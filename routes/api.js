@@ -52,6 +52,8 @@ router.all('*', function(req, res, next) {
 })
 
 router.post("/login", function(req, res, next) {
+	console.log(req.body.username)
+	console.log(req.body.password)
 	if(
 		req.body.username === config.username
 		&& req.body.password === config.password
