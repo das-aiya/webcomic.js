@@ -252,7 +252,11 @@ router.all(new RegExp("(mod|post|get)"), function (req, res, next) {
 			} else {
 				res.locals.sendFailure("uhhh, actually send me shit.")
 			}
-			res.locals.fsMethod = grepWriteReqPage
+			if (res.locals.method == "mod") {
+				res.locals.fsMethod = grepWriteReqPage
+			} else {
+				res.locals.fsMethod = writeReqFile
+			}
 		}
 	} 
 

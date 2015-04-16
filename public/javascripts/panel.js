@@ -61,12 +61,11 @@ Panel.submitPage = function () {
 			}
 		}
 	], function (err, results) {
-		window.location.href = "/admin"
+		// window.location.href = "/admin"
 		if(err) {
 			console.log(err)
 		} else {
 			console.log("we did it")
 		}
-
 	})
 }
