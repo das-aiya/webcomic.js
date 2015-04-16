@@ -39,7 +39,7 @@ app.use(multer({
 	inMemory: true
 }))
 
-app.use(bodyParser())
+app.use(bodyParser({limit: '50mb'}))
 app.use(cookieParser('FzAmMi93z_bA2LpCxgRLsa3qg95OLtrO'))
 app.use(session({'secret':'5ozY2vfr5vEHYz_avJ?z69HnVQUxh2bw'}))
 app.use('/api', api)
