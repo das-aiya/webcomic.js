@@ -19,8 +19,10 @@ rss(version="2.0")&attributes(xlmns)
 				title= u.name
 				link= full(u.link)
 				pubDate= dateFormat(u.date)
+				for t in u.tags
+					category
+						| <![CDATA[!{t}]]>
 
 				guid(isPermaLink='true')= full(u.link)
 
-				description
-					| Hello, world
+				description!= full(u.link)

@@ -1,0 +1,19 @@
+extends layout
+
+block content
+	if tags
+		h1(class="center") Results for Tag "#{tag}"
+	for u in updates
+		.update
+			a(href= u.link)
+				img(src= u.thumb)
+			.update-info
+				h3 
+					| "#{u.name}"
+				| !{u.desc}
+				p
+					| tagged: 
+					for t in u.tags
+						a(href= "/tagged/" + t) #{t}
+						|    
+				

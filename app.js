@@ -1,5 +1,4 @@
 var async = require('async')
-var bodyParser = require('body-parser')
 var config = require('./package')
 var cookieParser = require('cookie-parser')
 var express = require('express')
@@ -12,10 +11,14 @@ var defaults = require('./lib/defaults.js')
 var useful = require('./lib/useful.js')
 var main = require('./routes/main.js')
 var rss = require('./routes/rss.js')
+var archive = require('./routes/archive.js')
 var api = require('./routes/api.js')
+var thumb = require('./routes/thumb.js')
 var admin = require('./routes/admin.js')
+var tagged = require('./routes/tagged.js')
 
 var app  = express()
+
 
 app.set('appName', 'comicpublisher.js')
 app.set('port', process.env.PORT || 3000)
@@ -24,18 +27,16 @@ app.set('view engine', 'jade')
 app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use(express.cookieSession())
-// app.use( bodyParser.json() )
 app.use(multer({
-	dest: './uploads/',
 	onFileUploadStart: function (file) {
 		console.log(file.originalname + ' is downloading.')
 	},
 	onFileUploadComplete: function (file) {
 	},
-	putSingleFilesInArray: true
+	putSingleFilesInArray: true,
+	inMemory: true
 }))
 
-app.use(bodyParser())
 app.use(cookieParser('FzAmMi93z_bA2LpCxgRLsa3qg95OLtrO'))
 app.use(session({'secret':'5ozY2vfr5vEHYz_avJ?z69HnVQUxh2bw'}))
 app.use('/api', api)
@@ -49,6 +50,9 @@ app.get('/', function(req, res) {
 
 app.use("*rss*", rss)
 app.use("/admin", admin)
+app.use("/thumb", thumb)
+app.use('/archive', archive)
+app.use('/tagged', tagged)
 
 // return the page at /page/NUMBER
 app.get(defaults.pageAccessURL + '*', main)
@@ -63,7 +67,7 @@ app.get("*", function(req, res) {
 	res.render('pageNotFound')
 })
 
-http.createServer(app).listen(app.get('port'), function(){
+http.createServer(app).listen(app.get('port'), function() {
 	console.log('Express server listenin\' on port ' 
 		+ app.get('port'));
 });

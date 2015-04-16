@@ -5,6 +5,7 @@ var path = require('path')
 var useful = require('../lib/useful.js')
 var yaml = require('js-yaml')
 var marked = require('marked')
+var moment = require('moment')
 
 var pageDirName = defaults.pageDirName
 var pageAccessURL = defaults.pageAccessURL
@@ -30,16 +31,18 @@ var Main = function(req, res) {
 		if( files.length == intNumber ) { isLast = true } 
 		else { isLast = false }
 
-		if ( intNumber > 0 ) { previous = intNumber - 1 } 
+		if ( intNumber > 0 ) { previous = intNumber - 1 + "#page" } 
 		else { previous = "#" }
 
 		if ( isLast ) { next = "#" }
-		else { next = intNumber + 1 }
+		else { next = intNumber + 1 + "#page" }
 
 		var data = {
 			previous  : previous,
 			next      : next,
-			pageSource: "/pages/" + pagesData.selected,
+			pageSource: path.join(
+				defaults.pageDirName, pagesData.selected
+			),
 			isFirst: isFirst,
 			isLast: isLast
 		}
@@ -65,6 +68,8 @@ var Main = function(req, res) {
 
 		var publicPath = path.join(__dirname, "public")
 		var pagePath = path.join(publicPath, data.pageSource)
+
+		data.date = moment(data.date).fromNow()
 
 		res.render("index", data)
 	}
