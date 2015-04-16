@@ -1,0 +1,26 @@
+doctype html
+html
+	head
+		link(rel='stylesheet' href='/stylesheets/admin.css')
+		script(src='/javascripts/jquery/jquery.js')
+		script(src='/javascripts/async/async.js')
+		script(src='/javascripts/js-yaml/js-yaml.js')
+		script(src='/javascripts/panel.js')
+		script(src='/javascripts/api.js')
+		script.
+			var num = #{num}
+	body
+		h1 Editing Comic Number #{num}
+		#editMain
+			form(id="mainForm")
+				p comic name:
+				input(id='editName' type='text' value= yamlData.name)
+				p comic tags:
+				input(id='editTags' type='text' value= yamlData.tags)
+				p comic description:
+				textarea(id='editDesc' name='desc')= mdData
+			form(id='fileUpload')
+				p upload new file?
+				input(type='file' id="fileForm")
+			form
+				a(href='javascript:Panel.submitPage()') submit
