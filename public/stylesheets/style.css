@@ -46,6 +46,7 @@ h1 {
 #page, #page_wrapper {
 	width:850px;
 	/* height:1100px; */
+background-color:white;
 }
 
 #content, footer {
