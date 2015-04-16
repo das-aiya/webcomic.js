@@ -42,7 +42,7 @@ router.post("/login", function(req, res, next) {
 	}
 })
 
-// router.use("/*", auth)
+router.use("/*", auth)
 
 router.use("/logout", function(req, res, next) {
 	req.session = null
