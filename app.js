@@ -1,5 +1,4 @@
 var async = require('async')
-var bodyParser = require('body-parser')
 var config = require('./package')
 var cookieParser = require('cookie-parser')
 var express = require('express')
@@ -28,7 +27,6 @@ app.set('view engine', 'jade')
 app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use(express.cookieSession())
-// app.use( bodyParser.json() )
 app.use(multer({
 	onFileUploadStart: function (file) {
 		console.log(file.originalname + ' is downloading.')
@@ -39,7 +37,6 @@ app.use(multer({
 	inMemory: true
 }))
 
-app.use(bodyParser())
 app.use(cookieParser('FzAmMi93z_bA2LpCxgRLsa3qg95OLtrO'))
 app.use(session({'secret':'5ozY2vfr5vEHYz_avJ?z69HnVQUxh2bw'}))
 app.use('/api', api)

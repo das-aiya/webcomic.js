@@ -5,6 +5,8 @@ var config = require('../package')
 var router = express.Router()
 var defaults = require('../lib/defaults.js')
 var path = require('path')
+var marked = require('marked')
+var yaml = require('js-yaml')
 
 var genericSuccess = {
 	result: "success"
@@ -156,8 +158,15 @@ router.all(new RegExp("(mod|post|get)"), function (req, res, next) {
 		}
 
 		fs.readFile(pathName, param, function (err, result) {
+			if (res.locals.parsed) {
+				if (res.locals.target == "Desc") {
+					result = marked(result)
+				} else if (res.locals.target == "Data") {
+					result = yaml.safeLoad(result)
+				}
+			}
+
 			if (!res.locals.raw) {
-				console.log("hella")
 				if (err) {
 					res.locals.sendFailure("The file could not be read for some reason!")
 				} else {
@@ -201,7 +210,7 @@ router.all(new RegExp("(mod|post|get)"), function (req, res, next) {
 		},
 		function (err, results) {
 			if (!results.found) {
-				res.locals.sendError("We couldn't find that page!  Sorry, bro.")
+				res.locals.sendFailure("We couldn't find that page!  Sorry, bro.")
 			} else {
 				fs.unlink(results.selected, function(err) {
 					if (err) {
@@ -236,7 +245,11 @@ router.all(new RegExp("(mod|post|get)"), function (req, res, next) {
 			res.locals.fsMethod = grepReadReqPage
 			res.locals.ext = ""
 		} else {
-			res.locals.ext = req.files.content[0].extension
+			if (req.files.content) {
+				res.locals.ext = req.files.content[0].extension
+			} else {
+				res.locals.sendFailure("uhhh, actually send me shit.")
+			}
 			res.locals.fsMethod = grepWriteReqPage
 		}
 	} 
@@ -285,9 +298,12 @@ router.all("/*/*", function(req, res, next) {
 })
 
 router.all(new RegExp(".*Raw.*"), function(req, res, next) {
-	console.log('raw found.')
 	res.locals.raw = true
+	next()
+})
 
+router.all(new RegExp(".*Parsed.*"), function(req, res, next) {
+	res.locals.parsed = true
 	next()
 })
 
